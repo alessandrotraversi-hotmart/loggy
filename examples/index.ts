@@ -1,14 +1,16 @@
-import Logger from "../src/decorator/logger.decorator";
+// TYPES
+import type Logger from "../src/logger";
 
-@Logger({
+// DECORATOR
+import Log from "../src/decorator/logger.decorator";
+
+@Log({
   context: "INFRA: DATABASE",
 })
 class ExampleClass {
-  private readonly logger;
+  private static readonly logger: Logger;
 
-  constructor() {}
-
-  execute() {
+  static execute(): void {
     console.log("------------");
 
     this.logger.info("Info title");
@@ -21,40 +23,37 @@ class ExampleClass {
   }
 }
 
-@Logger({
+@Log({
   context: "INFRA: DATABASE",
   printDate: false,
+  showClassName: false,
 })
 class ExampleClassWithoutDateFormat {
-  private readonly logger;
+  private static readonly logger: Logger;
 
-  constructor() {}
-
-  execute() {
+  static execute(): void {
     console.log("------------");
 
     this.logger.info("Info title");
   }
 }
 
-@Logger({
+@Log({
   context: "INFRA: DATABASE",
   showClassName: true,
 })
 class ExampleClassWithHandlerError {
-  private readonly logger;
+  private static readonly logger: Logger;
 
-  constructor() {}
-
-  execute() {
+  static execute(): void {
     console.log("------------");
 
     const error = new Error("Error1234");
-    const useHandlerError = (e) => `${e}${e.stack.split("\n")[2]}`;
+    const useHandlerError = (e: any): string => `${e}${e.stack.split("\n")[2]}`;
     this.logger.error(useHandlerError(error));
   }
 }
 
-new ExampleClass().execute();
-new ExampleClassWithoutDateFormat().execute();
-new ExampleClassWithHandlerError().execute();
+ExampleClass.execute();
+ExampleClassWithoutDateFormat.execute();
+ExampleClassWithHandlerError.execute();

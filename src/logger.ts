@@ -19,16 +19,6 @@ export default class Logger {
     this.config = payload;
   }
 
-  // private setFileInfo(error: any): void {
-  //   const stackInfo = error.stack?.split("\n")[3];
-  //   const fileInfo = stackInfo.match(/\(([^)]+)\)/)[1];
-
-  //   const [fileName, lineNumber] = fileInfo.split(":");
-
-  //   this.message.body.file = fileName;
-  //   this.message.body.line = Number(lineNumber);
-  // }
-
   private generate(payload: PayloadType): void {
     const { status } = payload;
 
@@ -60,7 +50,7 @@ export default class Logger {
     this.generate({ body, status: LoggerStatusEnums.warn });
   }
 
-  public error(body: string): void {
+  public error(body: string | Error): void {
     this.generate({ body, status: LoggerStatusEnums.error });
   }
 }
